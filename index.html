@@ -59,12 +59,33 @@
 		</div>
 	</section>
 
-	<!-- Mapa -->
+	<!-- Caja -->
 	<article class="post style1" id="one">
 
+		<!-- Mapa -->
 		<div id="map" class="map main"></div>
 
+		<!-- Menu -->
 		<div id="basemaps-wrapper" class="leaflet-bar">
+			<h3>Menú de selección</h3>
+			<hr />
+			<h4>Incendio de Marxuquera</h4>
+			<ul class="alt">
+				<li>
+					<h5>Capas Raster</h5>
+				    <input name="layer1" id="layer1" type="checkbox" checked="" onclick="myFunction()">
+					<label for="layer1">capa 1</label>
+					<input name="layer2" id="layer2" type="checkbox">
+					<label for="layer2">capa 2</label>
+				</li>
+				<li>
+					<h5>Capas vectoriales</h5>
+					<input name="layer3" id="layer3" type="checkbox" checked="">
+					<label for="layer3">capa 3</label>
+					<input name="layer4" id="layer4" type="checkbox">
+					<label for="layer4">capa 4</label>
+				</li>
+			</ul>
 			<select id="basemaps">
 				<option value="Topographic">Topographic</option>
 				<option value="Streets">Streets</option>

@@ -39,3 +39,13 @@ document
         var basemap = e.target.value;
         setBasemap(basemap);
     });
+
+var checkbox = document.getElementById('layer1')
+
+checkbox.addEventListener('change', (event) => {
+    if (event.target.checked) {
+        alert('checked');
+    } else {
+        alert('not checked');
+    }
+})
