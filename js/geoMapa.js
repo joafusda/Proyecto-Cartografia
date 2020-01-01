@@ -53,49 +53,32 @@ checkbox.addEventListener('change', (event) => {
         /* GeoTIFF */
         var url_to_geotiff_file = "antes_B8A.tif";
 
-        d3.request(url_to_geotiff_file).responseType('arraybuffer').get(
-            function (error, tiffData) {
-                
-                let geo = L.ScalarField.fromGeoTIFF(tiffData.response, bandIndex = 0);
+        fetch(url_to_geotiff_file)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    var layer = new GeoRasterLayer({
+                        georaster: georaster,
+                        opacity: 1,
+                        //pixelValuesToColorFn: values => values[0] === 42 ? '#ffffff' : '#000000',
+                        resolution: 128 // optional parameter for adjusting display resolution
+                    });
+                    layer.addTo(map);
 
-                let layerGeo = L.canvasLayer.scalarField(geo, {
-                    color: chroma.scale('RdPu').domain(geo.range),
-                    opacity: 0.65
-                }).addTo(map);
+                    layer.on('click', function (e) {
+                        if (e.georaster !== null) {
+                            let v = e.georaster.toFixed(0);
+                            let html = (`<span class="popupText">Valor ${v} m</span>`);
+                            let popup = L.popup()
+                                .setLatLng(e.latlng)
+                                .setContent(html)
+                                .openOn(map);
+                        }
+                    });
 
-                layerGeo.on('click', function (e) {
-                    if (e.value !== null) {
-                        let v = e.value.toFixed(0);
-                        let html = (`<span class="popupText">Valor ${v} m</span>`);
-                        let popup = L.popup()
-                            .setLatLng(e.latlng)
-                            .setContent(html)
-                            .openOn(map);
-                    }
+                    map.fitBounds(layer.getBounds());
                 });
-
-                map.fitBounds(layerGeo.getBounds());
-
             });
-
-        // fetch(url_to_geotiff_file)
-        //     .then(response => response.arrayBuffer())
-        //     .then(arrayBuffer => {
-
-        //             let layerGeo = L.leafletGeotiff(arrayBuffer).addTo(map);
-
-        //             layerGeo.on('click', function (e) {
-        //                 if (e.value !== null) {
-        //                     let v = e.value.toFixed(0);
-        //                     let html = (`<span class="popupText">valor ${v} m</span>`);
-        //                     let popup = L.popup()
-        //                         .setLatLng(e.latlng)
-        //                         .setContent(html)
-        //                         .openOn(map);
-        //                 }
-        //             });
-
-        //     });
 
     } else {
         alert('not checked');
