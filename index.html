@@ -2,12 +2,15 @@
 <!--
 	Visor web para carto...
 -->
-<html>
+<html lang="es">
 
 <head>
 	<title>Proyecto de cartografia GTI 2019</title>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1" />
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
 		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 		crossorigin="" />
@@ -73,16 +76,16 @@
 			<ul class="alt">
 				<li>
 					<h5>Capas Raster</h5>
-				    <input name="layer1" id="layer1" type="checkbox" checked="" onclick="myFunction()">
+					<input name="layer1" id="layer1" type="checkbox">
 					<label for="layer1">capa 1</label>
-					<input name="layer2" id="layer2" type="checkbox">
+					<input name="layer2" id="layer2" type="checkbox" checked="">
 					<label for="layer2">capa 2</label>
 				</li>
 				<li>
 					<h5>Capas vectoriales</h5>
-					<input name="layer3" id="layer3" type="checkbox" checked="">
+					<input name="layer3" id="layer3" type="checkbox">
 					<label for="layer3">capa 3</label>
-					<input name="layer4" id="layer4" type="checkbox">
+					<input name="layer4" id="layer4" type="checkbox" checked="">
 					<label for="layer4">capa 4</label>
 				</li>
 			</ul>
@@ -115,13 +118,14 @@
 		</div>
 	</footer>
 
-	<!-- Scripts -->
+	<!-- Scripts web -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery.scrolly.min.js"></script>
 	<script src="js/skel.min.js"></script>
 	<script src="js/util.js"></script>
 	<script src="js/main.js"></script>
-	<!-- Make sure you put this AFTER Leaflet's CSS -->
+
+	<!-- Leaflet script -->
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
 		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
 		crossorigin=""></script>
@@ -129,6 +133,14 @@
 	<script src="https://unpkg.com/esri-leaflet@2.3.2/dist/esri-leaflet.js"
 		integrity="sha512-6LVib9wGnqVKIClCduEwsCub7iauLXpwrd5njR2J507m3A2a4HXJDLMiSZzjcksag3UluIfuW1KzuWVI5n/cuQ=="
 		crossorigin=""></script>
+	<!-- Required by Leaflet.CanvasLayer.Field -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.4.1/chroma.min.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+	<script src="https://d3js.org/d3-request.v1.min.js"></script>
+	<script src="https://unpkg.com/geotiff@1.0.0-beta.6/dist/geotiff.bundle.min.js"></script>
+	<!-- Leaflet.CanvasLayer.Field plugin -->
+	<script src="https://ihcantabria.github.io/Leaflet.CanvasLayer.Field/dist/leaflet.canvaslayer.field.js"></script>
+
 	<!-- Mi Leaflet Map Script -->
 	<script src="js/geoMapa.js"></script>
 
