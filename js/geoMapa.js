@@ -51,7 +51,7 @@ checkbox.addEventListener('change', (event) => {
     if (event.target.checked) {
 
         /* GeoTIFF */
-        var url_to_geotiff_file = "antes_B8A.tif";
+        var url_to_geotiff_file = "https://joafusda.upv.edu.es/data/antes_B8A.tif";
 
         var layer = L.leafletGeotiff(
             url = url_to_geotiff_file,
