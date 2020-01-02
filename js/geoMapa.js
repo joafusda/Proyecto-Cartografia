@@ -73,3 +73,30 @@ checkbox.addEventListener('change', (event) => {
         alert('not checked');
     }
 });
+
+var checkbox3 = document.getElementById('layer3');
+
+checkbox3.addEventListener('change', (event) => {
+    if (event.target.checked) {
+
+        /* shapefile */
+        var shpfile = new L.Shapefile('data/Corine_incendio.zip', {
+			onEachFeature: function(feature, layer) {
+				if (feature.properties) {
+					layer.bindPopup(Object.keys(feature.properties).map(function(k) {
+						return k + ": " + feature.properties[k];
+					}).join("<br />"), {
+						maxHeight: 200
+					});
+				}
+			}
+		});
+		shpfile.addTo(map);
+		shpfile.once("data:loaded", function() {
+			console.log("finished loaded shapefile");
+		});
+
+    } else {
+        alert('not checked');
+    }
+});
