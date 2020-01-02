@@ -64,7 +64,6 @@ checkbox.addEventListener('change', (event) => {
                 clampLow: false,
                 clampHigh: true,
                 //vector:true,
-                arrowSize: 20,
             }
         ).addTo(map);
 
