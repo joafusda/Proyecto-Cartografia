@@ -53,32 +53,49 @@ checkbox.addEventListener('change', (event) => {
         /* GeoTIFF */
         var url_to_geotiff_file = "antes_B8A.tif";
 
-        fetch(url_to_geotiff_file)
-            .then(response => response.arrayBuffer())
-            .then(arrayBuffer => {
-                parseGeoraster(arrayBuffer).then(georaster => {
-                    var layer = new GeoRasterLayer({
-                        georaster: georaster,
-                        opacity: 1,
-                        //pixelValuesToColorFn: values => values[0] === 42 ? '#ffffff' : '#000000',
-                        resolution: 128 // optional parameter for adjusting display resolution
-                    });
-                    layer.addTo(map);
+        var layer = L.leafletGeotiff(
+            url = url_to_geotiff_file,
+            options = {
+                band: 0,
+                name: 'Capa 1',
+                clampLow: false,
+                clampHigh: true,
+                renderer: L.leafletGeotiff.plotty({
+                    colorScale: 'greys'
+                })
+            }
+        ).addTo(map);
 
-                    layer.on('click', function (e) {
-                        if (e.georaster !== null) {
-                            let v = e.georaster.toFixed(0);
-                            let html = (`<span class="popupText">Valor ${v} m</span>`);
-                            let popup = L.popup()
-                                .setLatLng(e.latlng)
-                                .setContent(html)
-                                .openOn(map);
-                        }
-                    });
+        // fetch(url_to_geotiff_file)
+        //     .then(response => response.arrayBuffer())
+        //     .then(arrayBuffer => {
+        //         parseGeoraster(arrayBuffer).then(georaster => {
+        //             var layer = L.leafletGeotiff(
+        //                 url = url_to_geotiff_file,
+        //                 options = {
+        //                     displayMin: 0,
+        //                     displayMax: 30,
+        //                     name: 'capa1',
+        //                     colorScale: 'rainbow',
+        //                     clampLow: false,
+        //                     clampHigh: true
+        //                 });
+        //             layer.addTo(map);
 
-                    map.fitBounds(layer.getBounds());
-                });
-            });
+        //             layer.on('click', function (e) {
+        //                 if (e !== null) {
+        //                     let v = georaster.getValueAtLatLng(e.latlng.lat, e.latlng.lng);;
+        //                     let html = (`<span class="popupText">Valor ${v} m</span>`);
+        //                     let popup = L.popup()
+        //                         .setLatLng(e.latlng)
+        //                         .setContent(html)
+        //                         .openOn(map);
+        //                 }
+        //             });
+
+        //             map.fitBounds(layer.getBounds());
+        //         });
+        //     });
 
     } else {
         alert('not checked');
