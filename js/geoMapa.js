@@ -53,19 +53,22 @@ checkbox.addEventListener('change', (event) => {
         /* GeoTIFF */
         var url_to_geotiff_file = "https://joafusda.upv.edu.es/data/antes_B8A.tif";
 
-        var layer = L.leafletGeotiff(
-            url = url_to_geotiff_file,
-            options = {
-                band: 0,
-                displayMin: 0,
-                displayMax: 30,
-                name: 'Wind speed',
-                colorScale: 'rainbow',
-                clampLow: false,
-                clampHigh: true,
-                //vector:true,
-            }
-        ).addTo(map);
+        fetch(url_to_geotiff_file).then(r => r.arrayBuffer()).then(function (buffer) {
+            var s = L.ScalarField.fromGeoTIFF(buffer);
+            let layer = L.canvasLayer.scalarField(s).addTo(map);
+            
+            layer.on("click", function (e) {
+                if (e.value !== null) {
+                    let popup = L.popup()
+                        .setLatLng(e.latlng)
+                        .setContent(`${e.value}`)
+                        .openOn(map);
+                }
+            });
+
+            map.fitBounds(layer.getBounds());
+        });
+
 
         // fetch(url_to_geotiff_file)
         //     .then(response => response.arrayBuffer())
