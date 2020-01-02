@@ -1,9 +1,17 @@
-var map = L.map('map', {
-    fullscreenControl: true,
-    zoomControl: true,
-    maxZoom: 15,
-    minZoom: 3
-}).setView([40, -3], 7);
+// Joan Lluís Fuster
+
+var map = null;
+
+iniciarMapa();
+
+function iniciarMapa() {
+    map = L.map('map', {
+        fullscreenControl: true,
+        zoomControl: true,
+        maxZoom: 15,
+        minZoom: 3
+    }).setView([40, -3], 7);    
+}
 
 var layer = L.esri.basemapLayer('Imagery').addTo(map);
 var layerLabels = L.esri.basemapLayer('ImageryLabels').addTo(map);
