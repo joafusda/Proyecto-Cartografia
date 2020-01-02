@@ -57,12 +57,14 @@ checkbox.addEventListener('change', (event) => {
             url = url_to_geotiff_file,
             options = {
                 band: 0,
-                name: 'Capa 1',
+                displayMin: 0,
+                displayMax: 30,
+                name: 'Wind speed',
+                colorScale: 'rainbow',
                 clampLow: false,
                 clampHigh: true,
-                renderer: L.leafletGeotiff.plotty({
-                    colorScale: 'greys'
-                })
+                //vector:true,
+                arrowSize: 20,
             }
         ).addTo(map);
 
