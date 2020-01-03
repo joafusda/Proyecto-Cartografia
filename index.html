@@ -21,6 +21,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
 		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 		crossorigin="" />
+	<link rel="stylesheet" href="css/leaflet-panel-layers.min.css" />
 
 	<link rel="stylesheet" href="css/main.css" />
 </head>
@@ -28,9 +29,18 @@
 <body>
 
 	<style>
-		#basemaps-wrapper {
+		#layers-wrapper {
 			position: absolute;
 			top: 10px;
+			right: 10px;
+			z-index: 400;
+			background: white;
+			padding: 10px;
+		}
+
+		#basemaps-wrapper {
+			position: absolute;
+			bottom: 25px;
 			right: 10px;
 			z-index: 400;
 			background: white;
@@ -76,27 +86,8 @@
 		<!-- Mapa -->
 		<div id="map" class="map main"></div>
 
-		<!-- Menu -->
+		<!-- Basemaps -->
 		<div id="basemaps-wrapper" class="leaflet-bar">
-			<h3>Menú de selección</h3>
-			<hr />
-			<h4>Incendio de Marxuquera</h4>
-			<ul class="alt">
-				<li>
-					<h5>Capas Raster</h5>
-					<input name="layer1" id="layer1" type="checkbox">
-					<label for="layer1">capa 1</label>
-					<input name="layer2" id="layer2" type="checkbox" checked="">
-					<label for="layer2">capa 2</label>
-				</li>
-				<li>
-					<h5>Capas vectoriales</h5>
-					<input name="layer3" id="layer3" type="checkbox">
-					<label for="layer3">capa 3</label>
-					<input name="layer4" id="layer4" type="checkbox" checked="">
-					<label for="layer4">capa 4</label>
-				</li>
-			</ul>
 			<select id="basemaps">
 				<option value="Topographic">Topographic</option>
 				<option value="Streets">Streets</option>
@@ -111,6 +102,7 @@
 				<option value="Physical">Physical</option>
 			</select>
 		</div>
+
 	</article>
 
 	<!-- Footer -->
@@ -150,6 +142,8 @@
 	<!-- Leaflet.Shapefile -->
 	<script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
 	<script src="js/leaflet.shapefile.js"></script>
+	<!-- Leaflet.Panel.Layers -->
+	<script src="js/leaflet-panel-layers.min.js"></script>
 
 	<!-- Mi Leaflet Map Script -->
 	<script src="js/geoMapa.js"></script>
