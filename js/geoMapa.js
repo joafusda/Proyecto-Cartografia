@@ -261,7 +261,7 @@ function iniciarPanel() {
 
     grupo_prueba.forEach(function (element, index) {
         fetch(element.url).then(res => res.arrayBuffer()).then(function (datos) {
-            rasterLayers.addLayer[index + 1] = {
+            rasterLayers[index + 1] = {
                 name: element.name,
                 icon: '<i class="fab fa-buffer"></i>',
                 exclusiveGroup: 'rasterData',
