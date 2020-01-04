@@ -196,7 +196,7 @@ function setMapaBase(basemap) {
 /* ------------------------ Crea una capa raster tif ------------------------ */
 function crearCapaTIF(datos, nombre, estilo) {
     var s = L.ScalarField.fromGeoTIFF(datos);
-    let layer = L.canvasLayer.scalarField(s);
+    var layer = L.canvasLayer.scalarField(s);
 
     layer.on("click", function (e) {
         if (e.value !== null) {
@@ -211,8 +211,8 @@ function crearCapaTIF(datos, nombre, estilo) {
 /* -------------------------------------------------------------------------- */
 
 /* ------------------------- Crea una capa shape zip ------------------------ */
-function crearCapaSHP(datos, nombre, estilo) {
-    var shpfile = new L.Shapefile('data/Corine_incendio.zip', {
+function crearCapaSHP(url, nombre, estilo) {
+    var shpfile = new L.Shapefile(url, {
         onEachFeature: function (feature, layer) {
             if (feature.properties) {
                 layer.bindPopup(Object.keys(feature.properties).map(function (k) {
@@ -251,6 +251,7 @@ function iniciarPanel() {
     });
 
     var rasterLayers = {};
+    var elementsProcessed = 0;
 
     rasterLayers[0] = {
         name: 'Ninguna',
@@ -261,30 +262,33 @@ function iniciarPanel() {
 
     grupo_prueba.forEach(function (element, index) {
         fetch(element.url).then(res => res.arrayBuffer()).then(function (datos) {
+            var layer = crearCapaTIF(datos, element.name, null);
             rasterLayers[index + 1] = {
                 name: element.name,
                 icon: '<i class="fab fa-buffer"></i>',
                 exclusiveGroup: 'rasterData',
-                layer: crearCapaTIF(datos, element.name, null)
+                layer: layer
+            }
+            elementsProcessed++;
+            if (elementsProcessed == grupo_prueba.length) {
+                var overLayers = [{
+                        group: "Grupo uno",
+                        layers: incendioLayers
+                    },
+                    {
+                        group: "Grupo dos",
+                        layers: recuperacionLayers
+                    }, {
+                        group: "Grupo tres",
+                        layers: rasterLayers
+                    }
+                ];
+
+                var panel = new L.control.panelLayers(null, overLayers);
+                panel.addTo(map);
             }
         });
     });
-
-    var overLayers = [{
-            group: "Grupo uno",
-            layers: incendioLayers
-        },
-        {
-            group: "Grupo dos",
-            layers: recuperacionLayers
-        }, {
-            group: "Grupo tres",
-            layers: rasterLayers
-        }
-    ];
-
-    var panel = new L.control.panelLayers(null, overLayers);
-    panel.addTo(map);
 }
 /* -------------------------------------------------------------------------- */
 
