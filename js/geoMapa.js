@@ -5,6 +5,7 @@
 /* -------------------------------------------------------------------------- */
 
 /* --------------------------- Variables globales --------------------------- */
+
 var map;
 var layerBaseMap;
 var layerBaseLabels;
@@ -15,9 +16,6 @@ grupo_incendio.push({
     url: "data/Incendio.zip"
 }, {
     name: "severidad",
-    url: "data/severidad.zip"
-}, {
-    name: "severidad_incendio",
     url: "data/severidad_incendio.zip"
 }, {
     name: "corine_incendio",
@@ -30,9 +28,6 @@ grupo_incendio.push({
 var grupo_recuperacion = [];
 grupo_recuperacion.push({
     name: "severidad_2019",
-    url: "data/severidad_2019.zip"
-}, {
-    name: "severidad_incendio_2019",
     url: "data/severidad_incendio_2019.zip"
 }, {
     name: "combinacion_2019",
@@ -54,26 +49,10 @@ grupo_raster.push({
     url: "data/dNBR_2019.tif"
 });
 
-var grupo_prueba = [];
-grupo_prueba.push({
-    name: "uno",
-    url: "data/20180804_B8A_20m.tif"
-}, {
-    name: "dos",
-    url: "data/antes_B8A.tif"
-}, {
-    name: "tres",
-    url: "data/antes_B12.tif"
-}, {
-    name: "cuatro",
-    url: "data/prueba.tif"
-});
-
-//var panel = new L.control.panelLayers(null, overLayers);
-
 /* -------------------------------------------------------------------------- */
 
 /* --------------------------------- Main() --------------------------------- */
+
 iniciarMapa();
 
 document
@@ -83,72 +62,10 @@ document
         setMapaBase(basemap);
     });
 
-// /* GeoTIFF */
-// var url = "data/antes_B12.tif";
-
-// fetch(url).then(res => res.arrayBuffer()).then(function (datos) {
-//     crearCapaTIF(datos, "capa2", null);
-// });
-
-// var checkbox = document.getElementById('layer1');
-
-// checkbox.addEventListener('change', (event) => {
-//     if (event.target.checked) {
-
-//         /* GeoTIFF */
-//         var url_to_geotiff_file = "data/antes_B8A.tif";
-
-//         fetch(url_to_geotiff_file).then(r => r.arrayBuffer()).then(function (buffer) {
-//             var s = L.ScalarField.fromGeoTIFF(buffer);
-//             let layer = L.canvasLayer.scalarField(s).addTo(map);
-
-//             layer.on("click", function (e) {
-//                 if (e.value !== null) {
-//                     let popup = L.popup()
-//                         .setLatLng(e.latlng)
-//                         .setContent(`${e.value}`)
-//                         .openOn(map);
-//                 }
-//             });
-
-//             map.fitBounds(layer.getBounds());
-//         });
-
-//     } else {
-//         alert('not checked');
-//     }
-// });
-
-// var checkbox3 = document.getElementById('layer3');
-
-// checkbox3.addEventListener('change', (event) => {
-//     if (event.target.checked) {
-
-//         /* shapefile */
-//         var shpfile = new L.Shapefile('data/Corine_incendio.zip', {
-//             onEachFeature: function (feature, layer) {
-//                 if (feature.properties) {
-//                     layer.bindPopup(Object.keys(feature.properties).map(function (k) {
-//                         return k + ": " + feature.properties[k];
-//                     }).join("<br />"), {
-//                         maxHeight: 200
-//                     });
-//                 }
-//             }
-//         });
-//         shpfile.addTo(map);
-//         shpfile.once("data:loaded", function () {
-//             console.log("finished loaded shapefile");
-//         });
-
-//     } else {
-//         alert('not checked');
-//     }
-// });
-
 /* -------------------------------------------------------------------------- */
 
 /* ------------------------------ Iniciar mapa ------------------------------ */
+
 function iniciarMapa() {
     map = L.map('map', {
             fullscreenControl: true,
@@ -164,9 +81,11 @@ function iniciarMapa() {
 
     iniciarPanel();
 }
+
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------- Establecer mapa base -------------------------- */
+
 function setMapaBase(basemap) {
     if (layerBaseMap) {
         map.removeLayer(layerBaseMap);
@@ -191,9 +110,11 @@ function setMapaBase(basemap) {
         map.addLayer(layerBaseLabels);
     }
 }
+
 /* -------------------------------------------------------------------------- */
 
 /* ------------------------ Crea una capa raster tif ------------------------ */
+
 function crearCapaTIF(datos, nombre, estilo) {
     var s = L.ScalarField.fromGeoTIFF(datos);
     var layer = L.canvasLayer.scalarField(s);
@@ -208,9 +129,11 @@ function crearCapaTIF(datos, nombre, estilo) {
     });
     return layer;
 }
+
 /* -------------------------------------------------------------------------- */
 
 /* ------------------------- Crea una capa shape zip ------------------------ */
+
 function crearCapaSHP(url, nombre, estilo) {
     var shpfile = new L.Shapefile(url, {
         onEachFeature: function (feature, layer) {
@@ -225,9 +148,11 @@ function crearCapaSHP(url, nombre, estilo) {
     });
     return shpfile;
 }
+
 /* -------------------------------------------------------------------------- */
 
 /* ------------------- Añade las capas en grupos al panel ------------------- */
+
 function iniciarPanel() {
 
     var incendioLayers = {};
@@ -260,7 +185,7 @@ function iniciarPanel() {
         layer: new L.geoJSON('', {})
     };
 
-    grupo_prueba.forEach(function (element, index) {
+    grupo_raster.forEach(function (element, index) {
         fetch(element.url).then(res => res.arrayBuffer()).then(function (datos) {
             var layer = crearCapaTIF(datos, element.name, null);
             rasterLayers[index + 1] = {
@@ -270,16 +195,16 @@ function iniciarPanel() {
                 layer: layer
             }
             elementsProcessed++;
-            if (elementsProcessed == grupo_prueba.length) {
+            if (elementsProcessed == grupo_raster.length) {
                 var overLayers = [{
-                        group: "Grupo uno",
+                        group: "Grupo incendio",
                         layers: incendioLayers
                     },
                     {
-                        group: "Grupo dos",
+                        group: "Grupo recuperacion",
                         layers: recuperacionLayers
                     }, {
-                        group: "Grupo tres",
+                        group: "Grupo raster",
                         layers: rasterLayers
                     }
                 ];
@@ -290,94 +215,8 @@ function iniciarPanel() {
         });
     });
 }
-/* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
+
 /* -------------------------------------------------------------------------- */
-
-
-
-/* --------------------------- EJEMPLOS DE CÓDIGO --------------------------- */
-
-/* EJEMPLO CALLBACK
-function getOverlays(callback){
-    var url = 'myServerUrl';
-    overlays = [];
-
-    $.ajax({
-        url: url,
-        dataType: 'jsonp',
-        jsonpCallback: 'getJson',
-        success: function(response) {
-            overlays.push({
-                name: "Something",
-                layer: L.Proj.geoJson(response, {
-                ...
-                }
-            });
-            callback(overlays)
-        }
-    });
-    return overlays;
-}
-
-var map = L.map('map', {
-    layers: layers[0].layer
-});
-var layers = getBaseLayers();
-getOverlays(function(overlays){
-    var panelLayers = new L.Control.PanelLayers(layers,overlays);
-    map.addControl(panelLayers);
-});
-*/
-
-
-/*
-var myLayerGroup = L.layerGroup(), // do not add to map initially.
-    overlays = {
-        "Merged GeoJSON collections": myLayerGroup
-    };
-
-L.control.layers(null, overlays).addTo(map);
-
-function x(source, map) {
-    // Merge the GeoJSON layer into the Layer Group.
-    myLayerGroup.addLayer(L.geoJson({}, {
-        style: function (feature) {  …  },
-        onEachFeature: function (feature, layer) {  …  }
-    }));
-}
-
-$.getJSON("data/Knox.geojson", function(source){
-    x(source, map);
-});
-*/
-
-
-/*
-var layers = {};
-
-L.geoJson(source, {
-
-    style: function (feature) {  …  },
-
-    onEachFeature: function(feature, layer){
-        var popupText = "<h1 class='makebold'>Border: </h1>" +
-                feature.properties.name + "<br/>" +
-                "<h1 class='makebold'>Which Side?: </h1>" +
-                feature.properties.side;
-
-        layer.bindPopup(popupText);
-
-        // Populate `layers` with each layer built from a GeoJSON feature.
-        layers[feature.properties.name] = layer;
-    }
-
-});
-
-var myLayersControl = L.control.layers(null, layers).addTo(map);
-*/
-
-// https://stackoverflow.com/questions/33772326/toggle-layers-on-and-off-in-leaflet-more-complex-scenario
-
 /* -------------------------------------------------------------------------- */
