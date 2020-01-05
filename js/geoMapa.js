@@ -69,6 +69,10 @@ document
 function iniciarMapa() {
     map = L.map('map', {
             fullscreenControl: true,
+            fullscreenControlOptions: {
+                title: 'Mostrar en pantalla completa',
+                titleCancel: 'Salir de pantalla completa',
+            },
             zoomControl: true,
             maxZoom: 15,
             minZoom: 3
