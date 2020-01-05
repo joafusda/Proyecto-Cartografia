@@ -75,7 +75,12 @@ function iniciarMapa() {
         })
         .setView([40, -3], 7);
 
-    L.control.scale().addTo(map);
+    //L.control.scale().addTo(map);
+    L.control.betterscale({
+        position: 'bottomleft',
+        metric: true,
+        imperial: false
+    }).addTo(map);
 
     setMapaBase('Imagery');
 
