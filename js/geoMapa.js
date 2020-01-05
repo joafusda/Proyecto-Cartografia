@@ -85,6 +85,13 @@ function iniciarMapa() {
     });
     zoomHome.addTo(map);
 
+    // Zoom ventana
+    L.Control.boxzoom({
+        position: 'topleft',
+        enableShiftDrag: true,
+        // iconClasses: '<i class="fas fa-search"></i>'
+    }).addTo(map);
+
     // escala gráfica
     L.control.betterscale({
         position: 'bottomleft',
