@@ -73,21 +73,29 @@ function iniciarMapa() {
                 title: 'Mostrar en pantalla completa',
                 titleCancel: 'Salir de pantalla completa',
             },
-            zoomControl: true,
+            zoomControl: false,
             maxZoom: 15,
             minZoom: 3
         })
         .setView([40, -3], 7);
 
-    //L.control.scale().addTo(map);
+    // control zoom home
+    var zoomHome = L.Control.zoomHome({
+        position: 'topleft'
+    });
+    zoomHome.addTo(map);
+
+    // escala gráfica
     L.control.betterscale({
         position: 'bottomleft',
         metric: true,
         imperial: false
     }).addTo(map);
 
+    // BaseMap
     setMapaBase('Imagery');
 
+    // Panel de selección de capas
     iniciarPanel();
 }
 
